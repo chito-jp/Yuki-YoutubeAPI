@@ -295,6 +295,34 @@ def home():
     global url
     url = requests.get(r'https://raw.githubusercontent.com/mochidukiyukimi/yuki-youtube-instance/main/instance.txt').text.rstrip()
 
+@app.get("/api/video/{videoid}", response_class=JSONResponse)
+async def get_video_data(videoid: str):
+    """
+    指定された動画IDに基づいて、動画のデータ（ストリームURLなど）をJSON形式で返すAPI
+    """
+    try:
+        # get_data関数を使用して動画情報を取得
+        video_info = get_data(videoid)
+        
+        # 必要なデータをJSON形式に整形
+        response_data = {
+            "videoId": videoid,
+            "title": video_info[3],  # 動画のタイトル
+            "author": video_info[5],  # 動画の著者名
+            "streamUrls": video_info[1],  # 動画のストリームURLリスト（2つ）
+            "recommendedVideos": video_info[0],  # 推奨動画のリスト
+            "description": video_info[2],  # 動画の説明
+            "authorId": video_info[4],  # 著者ID
+            "authorIcon": video_info[6],  # 著者アイコンURL
+        }
+        
+        # JSON形式でレスポンスを返す
+        return JSONResponse(content=response_data)
+    
+    except APItimeoutError:
+        raise HTTPException(status_code=500, detail="API Timeout Error")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Unexpected Error: {str(e)}")
 
 @app.exception_handler(500)
 def page(request: Request,__):
