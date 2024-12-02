@@ -163,7 +163,7 @@ def get_verifycode():
 
 from fastapi import FastAPI, Depends
 from fastapi import Response,Cookie,Request
-from fastapi.responses import HTMLResponse,PlainTextResponse
+from fastapi.responses import HTMLResponse,PlainTextResponse,JSONResponse
 from fastapi.responses import RedirectResponse as redirect
 from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.staticfiles import StaticFiles
