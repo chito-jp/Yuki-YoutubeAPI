@@ -1,4 +1,5 @@
+jinja2
 requests
 fastapi
 uvicorn
-jinja2
+fastapi-csrf-protect
