@@ -33,7 +33,7 @@ def api_request(url):
     raise TimeoutError("APIがタイムアウトしました")
 
 def get_video(video_id):
-    t = api_request(f"/api/v1/videos/{video_id}")
+    t = json.loads(api_request(f"/api/v1/videos/{video_id}"))
     
     related_videos = [
         {
